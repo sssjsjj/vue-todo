@@ -2,18 +2,29 @@
   <div class="box-input shadow">
     <input ref="todoInput" type="text" v-model="newTodoItem" @keyup.enter="addTodo">
     <!-- <button ref="buttonAddTodo" @click="addTodo">add</button> -->
-    <span class="container-add">
-      <i class="far fa-plus-square btn-add" @click="addTodo"></i>
-    </span>
+    <button class="btn-add" @click="addTodo">
+      <i class="far fa-plus-square"></i>
+    </button>
+
+    <Modal v-if="showModal" @close="showModal = false">
+      <h3 slot="header">앗 고객님</h3>
+      <p slot="body">할 일을 입력해 주세요</p>
+    </Modal>
   </div>
 </template>
 
 <script>
+import Modal from './common/Modal.vue'
+
 export default {
   props: ['propsData'],
+  components: {
+    Modal
+  },
   data() {
     return {
-      newTodoItem: ""
+      newTodoItem: "",      
+      showModal: false
     }
   },
   methods: {
@@ -23,7 +34,7 @@ export default {
         this.clearInput()
         this.focusInput()
       } else {
-        alert('할 일을 입력해 주세요')
+        this.showModal = true
       }
     },
     clearInput() {
@@ -44,7 +55,6 @@ input:focus {
   display: flex;
   height: 50px;
   background-color: #fff;
-  line-height: 50px;
   border-radius: 5px;
 }
 .box-input input {
@@ -53,7 +63,7 @@ input:focus {
   border-style: none;
   font-size: 0.9rem;
 }
-.container-add {
+.btn-add {
   display: block;
   width: 3rem;
   background: linear-gradient(to right, #6478f8, #8763f8);

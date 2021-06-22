@@ -1,24 +1,24 @@
 <template>
   <div>
-    <ul>
-      <li
-        v-for="(item, index) in propsData"
-        :key="`${item.item}-${index}`"
-        class="shadow"
-      >
-        <button
-          class="btn-check"
-            :class="{ 'btn-check-completed': item.completed }"
-          @click="toggleComplete(item, index)"
+      <transition-group name="list" tag="ul">
+        <li
+          v-for="(item, index) in propsData"
+          :key="`${item.item}-${index}`"
+          class="shadow"
         >
-          <i class="fas fa-check"></i>    
-        </button>    
-        <span :class="{ 'text-completed': item.completed }">{{ item.item }}</span>
-        <button class="btn-remove" @click="removeTodo(item.item, index)">
-          <i class="far fa-minus-square"></i>
-        </button>
-      </li>
-    </ul>
+          <button
+            class="btn-check"
+              :class="{ 'btn-check-completed': item.completed }"
+            @click="toggleComplete(item, index)"
+          >
+            <i class="fas fa-check"></i>
+          </button>
+          <span :class="{ 'text-completed': item.completed }">{{ item.item }}</span>
+          <button class="btn-remove" @click="removeTodo(item, index)">
+            <i class="far fa-minus-square"></i>
+          </button>
+        </li>
+      </transition-group>
   </div>
 </template>
 
@@ -68,5 +68,14 @@ li {
 .btn-remove {
   margin-left: auto;
   color: #de4343;
+}
+
+/*  리스트 아이템 트랜지션 효과 */
+.list-enter-active, .list-leave-active {
+  transition: all 1s;
+}
+.list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
+  opacity: 0;
+  transform: translateY(30px);
 }
 </style>
