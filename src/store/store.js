@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import * as getters from './getters'
+import * as mutations from './mutations'
 
 Vue.use(Vuex)
 
@@ -24,37 +26,8 @@ export const store = new Vuex.Store({
   state: {
     todoItems: storage.fetch()
   },
-  getters: {
-    getTodoItems(state) {
-      return state.todoItems
-    }
-  },
-  mutations: {
-    addOneItem(state, todoItem) {
-      const obj = {completed: false, item: todoItem}
-      localStorage.setItem(todoItem, JSON.stringify(obj))
-      state.todoItems.push(obj)
-    },
-    removeOneItem(state, payload) {
-      const todoItem = payload.item
-      const index = payload.index
-
-      state.todoItems.splice(index, 1)
-      localStorage.removeItem(todoItem.item)
-    },
-    toggleOneItem(state, payload) {
-      const todoItem = payload.item
-      const index = payload.index
-      
-      state.todoItems[index].completed = !state.todoItems[index].completed
-      localStorage.removeItem(todoItem.item)
-      localStorage.setItem(todoItem, JSON.stringify(todoItem))
-    },
-    clearAllItems(state) {
-      state.todoItems = []
-      localStorage.clear()
-    }
-  },
+  getters,
+  mutations,
   actions: {
   }
 })
