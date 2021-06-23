@@ -1,13 +1,9 @@
 <template>
   <div id="app">
     <TodoHeader />
-    <TodoInput @addTodoItem="addOneItem" />
-    <TodoList
-      :props-data="todoItems"
-      @removeItem="removeOneItem"
-      @toggleItem="toggleOneItem"
-    />
-    <TodoFooter @clearItems="clearAllItems"/>
+    <TodoInput />
+    <TodoList />
+    <TodoFooter />
   </div>
 </template>
 
@@ -25,43 +21,6 @@ export default {
     TodoList,
     TodoFooter
   },
-  data() {
-    return {
-      todoItems: [],
-    }
-  },
-  created() {
-    const dataLength = localStorage.length
-    if(dataLength > 0) {
-      for(let i=0; i < dataLength; i++) {
-        const key = localStorage.key(i)
-        if(key !== 'loglevel:webpack-dev-server') {
-          const item = localStorage.getItem(key)
-          this.todoItems.push(JSON.parse(item))
-        }
-      }
-    }
-  },
-  methods: {
-    addOneItem(item) {
-      const obj = {completed: false, item: item}
-      localStorage.setItem(item, JSON.stringify(obj))
-      this.todoItems.push(obj)
-    },
-    removeOneItem(item, index) {
-      this.todoItems.splice(index, 1)
-      localStorage.removeItem(item.item)
-    },
-    toggleOneItem(item, index) {
-      this.todoItems[index].completed = !this.todoItems[index].completed
-      localStorage.removeItem(item.item)
-      localStorage.setItem(item.item, JSON.stringify(item))
-    },
-    clearAllItems() {
-      this.todoItems = []
-      localStorage.clear()
-    }
-  }
 }
 </script>
 
@@ -82,5 +41,8 @@ button {
 }
 .shadow {
   box-shadow: 5px 10px 10px rgba(0,0,0,0.03);
+}
+div {
+  box-sizing: border-box;
 }
 </style>

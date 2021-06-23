@@ -14,10 +14,10 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 import Modal from './common/Modal.vue'
 
 export default {
-  props: ['propsData'],
   components: {
     Modal
   },
@@ -28,9 +28,11 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(['addOneItem']),
     addTodo() {
       if(this.newTodoItem !== '') {
-        this.$emit('addTodoItem', this.newTodoItem)
+        const newTodoItem = this.newTodoItem.trim()
+        this.addOneItem(newTodoItem)
         this.clearInput()
         this.focusInput()
       } else {

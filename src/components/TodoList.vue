@@ -1,42 +1,43 @@
 <template>
   <div>
-      <transition-group name="list" tag="ul">
-        <li
-          v-for="(item, index) in propsData"
-          :key="`${item.item}-${index}`"
-          class="shadow"
+    <transition-group name="list" tag="ul">
+      <li
+        v-for="(item, index) in getTodoItems"
+        :key="`${item.item}-${index}`"
+        class="shadow"
+      >
+        <button
+          class="btn-check"
+            :class="{ 'btn-check-completed': item.completed }"
+          @click="toggleOneItem({item, index})"
         >
-          <button
-            class="btn-check"
-              :class="{ 'btn-check-completed': item.completed }"
-            @click="toggleComplete(item, index)"
-          >
-            <i class="fas fa-check"></i>
-          </button>
-          <span :class="{ 'text-completed': item.completed }">{{ item.item }}</span>
-          <button class="btn-remove" @click="removeTodo(item, index)">
-            <i class="far fa-minus-square"></i>
-          </button>
-        </li>
-      </transition-group>
+          <i class="fas fa-check"></i>
+        </button>
+        <span :class="{ 'text-completed': item.completed }">{{ item.item }}</span>
+        <button class="btn-remove" @click="removeOneItem({item, index})">
+          <i class="far fa-minus-square"></i>
+        </button>
+      </li>
+    </transition-group>
   </div>
 </template>
 
 <script>
+import { mapGetters, mapMutations } from 'vuex'
 export default {
-  props: ['propsData'],
+  computed: {
+    ...mapGetters(['getTodoItems'])
+  },
   methods: {
-    removeTodo(item, index) {
-      this.$emit('removeItem', item, index)
-    },
-    toggleComplete(item, index) {
-      this.$emit('toggleItem', item, index)
-    },
+    ...mapMutations({
+      removeOneItem: 'removeOneItem',
+      toggleOneItem: 'toggleOneItem'
+    }),
   }
 }
 </script>
 
-<style scroped>
+<style scoped>
 ul {
   list-style-type: none;
   padding-left: 0;
