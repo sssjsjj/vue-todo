@@ -16,7 +16,7 @@ const toggleOneItem = (state, payload) => {
   
   state.todoItems[index].completed = !state.todoItems[index].completed
   localStorage.removeItem(todoItem.item)
-  localStorage.setItem(todoItem, JSON.stringify(todoItem))
+  localStorage.setItem(todoItem.item, JSON.stringify(state.todoItems[index]))
 }
 const clearAllItems = (state) => {
   state.todoItems = []
